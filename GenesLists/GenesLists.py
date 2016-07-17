@@ -47,8 +47,6 @@ class MetabolicList(GeneList):
         n = self.afterIntersectionLength[0]
         N = target_list.initialLength
         x = self.afterIntersectionLength[-1]
-        # print hypergeom.cdf(x-1, M, n, N)
-        p_of_more_or_equal_to_x = hypergeom.cdf(x-1, M, n, N)
-        self.hypergeometricScore = 1-p_of_more_or_equal_to_x
+        self.hypergeometricScore = hypergeom.sf(x-1, M, n, N)
         return self.hypergeometricScore
 

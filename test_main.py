@@ -43,8 +43,8 @@ class GenesListsTests(unittest.TestCase):
         self.expectedOutputContent = [
             "metabolic_name,complete_number,metabolic_clean_number,target_number,intersection_number,"
             "hypergeometric_score",
-            "GENE_ONE,20,5,10,4,0.15170278637770628904",
-            "GENE_TWO,20,8,10,3,0.91509883305548955779"
+            "GENE_ONE,20,5,10,4,0.15170278637770917562",
+            "GENE_TWO,20,8,10,3,0.91509883305549188925"
         ]
 
         self.main_py = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'main.py')

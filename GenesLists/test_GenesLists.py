@@ -38,7 +38,7 @@ class GenesListsTests(unittest.TestCase):
         self.expected_intersection = [456, 789]
         self.expected_intersection_length = [2]
 
-        self.expected_hypergeometric_score = 0.15170278637770629
+        self.expected_hypergeometric_score = 0.15170278637770918
 
     def tearDown(self):
         """
@@ -89,7 +89,7 @@ class GenesListsTests(unittest.TestCase):
         temp = self.fakeMetabolicGeneList.compute_hypergeometric_score(self.fakeCompleteGeneList, self.fakeTargetGeneList)
         self.assertAlmostEqual(self.fakeMetabolicGeneList.hypergeometricScore, self.expected_hypergeometric_score,
                                places=16,
-                               msg='scoring went wrong: '+str(temp)+' != '+str(self.expected_hypergeometric_score))
+                               msg='scoring went wrong: '+repr(temp)+' != '+repr(self.expected_hypergeometric_score))
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(GenesListsTests)
