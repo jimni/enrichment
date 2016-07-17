@@ -73,6 +73,7 @@ class GenesListsTests(unittest.TestCase):
             output_content = outputFile.read().splitlines()
             self.assertListEqual(output_content, self.expectedOutputContent, 'output content doesnt match:\n' +
                                  str(output_content)+"\n---\n"+str(self.expectedOutputContent))
+        # todo: modify atest for convert_ids_to_names
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(GenesListsTests)

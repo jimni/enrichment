@@ -7,15 +7,17 @@ metabolicListDirectory = '/Users/jim/Desktop/enrichment_maps_pathways/kegg_some'
 completeListPath = '/Users/jim/Desktop/enrichment_maps_pathways/our_expressed.csv'
 targetListPath = '/Users/jim/Desktop/enrichment_maps_pathways/target_68'
 outFileName = 'result.csv'
+conversionMapPath = 'resources/gene_id_name_map.csv'
 
 # additional config
 csvHeaderRow = [
     "metabolic_name",
-    "complete_number",
-    "metabolic_clean_number",
-    "target_number",
-    "intersection_number",
-    "hypergeometric_score"
+    "complete_count",
+    "metabolic_clean_count",
+    "target_count",
+    "intersection_count",
+    "p_val_hypergeometric_score",
+    "gene_names"
 ]
 
 
@@ -36,6 +38,7 @@ def main():
                         "in target list folder", metavar="file_path")
     args = parser.parse_args()
     args.outFilePath = args.outFilePath or os.path.splitext(args.targetListPath)[0]+'_'+outFileName
+    # todo: make convert_ids_to_names optional
 
     # main body
     complete = GeneList(args.completeListPath)
@@ -55,13 +58,15 @@ def main():
         metabolic.intersect_with(target)
         metabolic.compute_hypergeometric_score(complete, target)
         # metabolic.show(show_gene_ids=False)
+        metabolic.convert_ids_to_names(conversionMapPath, delimiter_char=';')
         result.writerow([
             metabolic.name,
             complete.initialLength,
             metabolic.afterIntersectionLength[0],
             target.initialLength,
             metabolic.afterIntersectionLength[-1],
-            "%.20f" % metabolic.hypergeometricScore
+            "%.20f" % metabolic.hypergeometricScore,
+            ' | '.join(metabolic.geneNames)
         ])
 
 if __name__ == "__main__":

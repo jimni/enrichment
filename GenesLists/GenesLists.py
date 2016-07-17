@@ -1,4 +1,5 @@
 import os
+import csv
 from scipy.stats import hypergeom
 
 
@@ -17,6 +18,7 @@ class GeneList:
         self.afterIntersectionLength = []
         self.name = ''
         self.hypergeometricScore = None
+        self.geneNames = []
 
     def count_genes(self):
         return len(self.geneIds)
@@ -29,6 +31,12 @@ class GeneList:
         if show_gene_ids:
             print 'Gene IDs list: %s' % self.geneIds
 
+    def convert_ids_to_names(self, conversion_map_filepath, delimiter_char=','):
+        # todo: add utest for convert_ids_to_names
+        with open(conversion_map_filepath, 'r') as mapFile:
+            reader = csv.reader(mapFile, delimiter=delimiter_char)
+            gene_id_name_dict = {rows[0]: rows[1] for rows in reader}
+        self.geneNames = [gene_id_name_dict.get(str(geneId), "not found id %s" % geneId) for geneId in self.geneIds]
 
 class MetabolicList(GeneList):
     """
@@ -38,8 +46,8 @@ class MetabolicList(GeneList):
         GeneList.__init__(self, filepath)
         self.name = os.path.splitext(os.path.basename(filepath))[0]
 
-    def intersect_with(self, complete_list):
-        self.geneIds = list(set(self.geneIds).intersection(complete_list.geneIds))
+    def intersect_with(self, another_list):
+        self.geneIds = list(set(self.geneIds).intersection(another_list.geneIds))
         self.afterIntersectionLength.append(self.count_genes())
 
     def compute_hypergeometric_score(self, complete_list, target_list):
